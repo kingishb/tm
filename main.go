@@ -9,7 +9,7 @@ import (
 )
 
 // run runs a shell command
-func run(sh string) error {
+func run(sh string) {
 	// break command into parts
 	words := strings.Split(sh, " ")
 	cmd := exec.Command(words[0], words[1:]...)
@@ -20,17 +20,13 @@ func run(sh string) error {
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	return nil
 }
 
 func main() {
 	fmt.Println("=> current sessions:")
-	err := run("tmux list-session")
-	if err != nil {
-		log.Fatal(err)
-	}
+	run("tmux list-session")
 	menu := `
 => a    - attach
    new  - new session
@@ -48,27 +44,18 @@ func main() {
 			fmt.Printf("=> name: ")
 			var n string
 			fmt.Scanln(&n)
-			err = run(fmt.Sprintf("tmux a -t %s", n))
-			if err != nil {
-				log.Fatal(err)
-			}
+			run(fmt.Sprintf("tmux a -t %s", n))
 		case "new":
 			fmt.Printf("=> name: ")
 			var n string
 			fmt.Scanln(&n)
-			err = run(fmt.Sprintf("tmux new -s %s", n))
-			if err != nil {
-				log.Fatal(err)
-			}
+			run(fmt.Sprintf("tmux new -s %s", n))
 		case "kill":
 			fmt.Println("=> session name: ")
 			fmt.Printf("=> ")
 			var k string
 			fmt.Scanln(&k)
-			err = run(fmt.Sprintf("tmux kill-session -t %s", input))
-			if err != nil {
-				log.Fatal(err)
-			}
+			run(fmt.Sprintf("tmux kill-session -t %s", input))
 		case "exit":
 			fmt.Println("=> goodbye!")
 			return
