@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -18,10 +17,8 @@ func run(sh string) {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
+	cmd.Run()
+
 }
 
 func main() {
@@ -41,7 +38,7 @@ func main() {
 		fmt.Scanln(&input)
 		switch input {
 		case "a":
-			fmt.Printf("=> name: ")
+			fmt.Println("=> name: ")
 			var n string
 			fmt.Scanln(&n)
 			run(fmt.Sprintf("tmux a -t %s", n))
@@ -55,13 +52,15 @@ func main() {
 			fmt.Printf("=> ")
 			var k string
 			fmt.Scanln(&k)
-			run(fmt.Sprintf("tmux kill-session -t %s", input))
+			run(fmt.Sprintf("tmux kill-session -t %s", k))
 		case "exit":
 			fmt.Println("=> goodbye!")
 			return
 		default:
 			fmt.Println("invalid choice")
 		}
+		fmt.Println("=> current sessions:")
+		run("tmux list-session")
 	}
 
 }
