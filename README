@@ -1,3 +1,2 @@
-Simple tmux wrapper to attach to sessions, name sessions, 
-and kill existing ones.
+Simple tmux wrapper to attach to sessions, name sessions,  and kill existing ones.
 
