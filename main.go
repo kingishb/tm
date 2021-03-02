@@ -8,10 +8,13 @@ import (
 	"strings"
 )
 
+// run runs a shell command
 func run(sh string) error {
 	// break command into parts
 	words := strings.Split(sh, " ")
 	cmd := exec.Command(words[0], words[1:]...)
+
+	// set stdin etc to caller terminal
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -67,7 +70,7 @@ func main() {
 				log.Fatal(err)
 			}
 		case "exit":
-			fmt.Println("goodbye!")
+			fmt.Println("=> goodbye!")
 			return
 		default:
 			fmt.Println("invalid choice")
